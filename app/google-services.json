@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "567720294514",
+    "project_id": "game-finder-ef1e1",
+    "storage_bucket": "game-finder-ef1e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567720294514:android:ed92205e937e4c4d9faaeb",
+        "android_client_info": {
+          "package_name": "com.gamefinder.v32001"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567720294514-fhc9h0khpj5gmq594hm6hop46nl07e7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGCLBJC-F2kPP2NTooVmTbJY2yhSKb08U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567720294514-fhc9h0khpj5gmq594hm6hop46nl07e7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
