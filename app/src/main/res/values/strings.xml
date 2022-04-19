@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Game Finder</string>
+    <string name="gameTitle">Game Title</string>
 </resources>
