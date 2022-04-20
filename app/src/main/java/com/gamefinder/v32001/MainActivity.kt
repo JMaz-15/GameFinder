@@ -175,7 +175,7 @@ class MainActivity : ComponentActivity() {
                             } ?: ""
                         }
                         viewModel.save(gameInfo)
-                    }) { Text(text = "Save")}
+                    }) { Text(text = "Save Game")}
             }
         }
 
