@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -72,4 +73,8 @@ dependencies {
     // test
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
     testImplementation "io.mockk:mockk:1.12.2"
+    // Firebase Dependencies
+    implementation platform('com.google.firebase:firebase-bom:29.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.1'
 }

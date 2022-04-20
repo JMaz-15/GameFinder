@@ -141,6 +141,25 @@ class MainActivity : ComponentActivity() {
                 TextFieldWithDropdownUsage(dataIn = games, stringResource(R.string.game_Title))
                 Button(
                     onClick = {
+                       var gameInfo = GameInfo().apply {
+                            gameId = selectedGame?.let {
+                                it.gameId
+                            } ?: 0
+                            title = selectedGame?.let {
+                                it.title
+                            } ?: ""
+                            steamUrl = selectedGame?.let {
+                                it.steamUrl
+                            } ?: ""
+                            status = selectedGame?.let {
+                                it.status
+                            } ?: ""
+                        }
+
+                        Toast.makeText(context, "$gameTitle", Toast.LENGTH_LONG).show()
+                    }) { Text(text = "Search") }
+                Button(
+                    onClick = {
                         var gameInfo = GameInfo().apply {
                             gameId = selectedGame?.let {
                                 it.gameId
@@ -155,9 +174,8 @@ class MainActivity : ComponentActivity() {
                                 it.status
                             } ?: ""
                         }
-                        Toast.makeText(context, "$gameTitle", Toast.LENGTH_LONG).show()
-                    }) { Text(text = "Search") }
-
+                        viewModel.save(gameInfo)
+                    }) { Text(text = "Save")}
             }
         }
 
