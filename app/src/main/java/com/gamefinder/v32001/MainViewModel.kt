@@ -7,10 +7,9 @@ import com.gamefinder.dto.Game
 import com.gamefinder.service.GameService
 import kotlinx.coroutines.launch
 
-class MainViewModel(var games : MutableLiveData<List<Game>> = MutableLiveData<List<Game>>()) : ViewModel() {
+class MainViewModel (var gameService: GameService = GameService()) : ViewModel() {
 
-
-    var gameService : GameService = GameService()
+    var games : MutableLiveData<List<Game>> = MutableLiveData<List<Game>>()
 
     fun fetchGames() {
         viewModelScope.launch {
