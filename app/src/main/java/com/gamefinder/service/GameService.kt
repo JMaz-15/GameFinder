@@ -8,9 +8,13 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 
-class GameService {
+interface IGameService {
+    suspend fun fetchGames() : List<Game>?
+}
 
-    internal suspend fun fetchGames() : List<Game>? {
+class GameService : IGameService {
+
+    override suspend fun fetchGames() : List<Game>? {
         return withContext(Dispatchers.IO) {
             val service = RetrofitClientInstance.retrofitInstance?.create(IGameDAO::class.java)
             val games = async { service?.getAllGames() }
