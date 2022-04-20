@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.PopupProperties
 import com.gamefinder.dto.Game
+import com.gamefinder.dto.GameInfo
 import com.gamefinder.v32001.ui.theme.GameFinderTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,6 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
+    private var selectedGame: Game? = null
     private val viewModel: MainViewModel by viewModel<MainViewModel>()
     private var strSelectedData: String = ""
 
@@ -122,6 +124,7 @@ class MainActivity : ComponentActivity() {
                                     TextRange(text.toString().length)
                                 )
                             )
+                            selectedGame = text
                         }) {
                             Text(text = text.toString())
                         }
@@ -138,8 +141,23 @@ class MainActivity : ComponentActivity() {
                 TextFieldWithDropdownUsage(dataIn = games, stringResource(R.string.game_Title))
                 Button(
                     onClick = {
+                        var gameInfo = GameInfo().apply {
+                            gameId = selectedGame?.let {
+                                it.gameId
+                            } ?: 0
+                            title = selectedGame?.let {
+                                it.title
+                            } ?: ""
+                            steamUrl = selectedGame?.let {
+                                it.steamUrl
+                            } ?: ""
+                            status = selectedGame?.let {
+                                it.status
+                            } ?: ""
+                        }
                         Toast.makeText(context, "$gameTitle", Toast.LENGTH_LONG).show()
                     }) { Text(text = "Search") }
+
             }
         }
 
