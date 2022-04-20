@@ -10,7 +10,7 @@ import retrofit2.awaitResponse
 
 class GameService {
 
-    suspend fun fetchGames() : List<Game>? {
+    internal suspend fun fetchGames() : List<Game>? {
         return withContext(Dispatchers.IO) {
             val service = RetrofitClientInstance.retrofitInstance?.create(IGameDAO::class.java)
             val games = async {service?.getAllGames()}

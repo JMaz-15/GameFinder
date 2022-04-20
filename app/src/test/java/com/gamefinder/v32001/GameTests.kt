@@ -65,13 +65,11 @@ class GameTests {
         games.add(Game(10036581,
             "AI: The Somnium Files",
             "https://store.steampowered.com/app/948740",
-            "Adventure",
             "AVAILABLE")
         )
         games.add(Game(100894211,
             "Saviors of Sapphire Wings / Stranger of Sword City",
             "https://store.steampowered.com/app/1363840",
-            "Role Playing",
             "AVAILABLE")
         )
 
@@ -105,8 +103,7 @@ class GameTests {
             if((it.gameId.equals(10036581)
                 && (it.title.equals("AI: The Somnium Files")))
                 && (it.steamUrl.equals("https://store.steampowered.com/app/948740"))
-                &&(it.genre.equals("Adventure")
-                        && (it.status.equals("AVAILABLE"))))
+                        && (it.status.equals("AVAILABLE")))
                 containsData = true
         }
         assertTrue(containsData)
@@ -128,8 +125,7 @@ class GameTests {
         allGames!!.forEach {
            if((it.title.equals("AI: The Somnium Files"))
                && (it.steamUrl.equals("https://store.steampowered.com/app/948740"))
-               &&(it.genre.equals("Adventure")
-                       && (it.status.equals("AVAILABLE"))))
+                       && (it.status.equals("AVAILABLE")))
                            containsData = true
         }
         assertTrue(containsData)
