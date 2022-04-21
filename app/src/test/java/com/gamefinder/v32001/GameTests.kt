@@ -53,63 +53,6 @@ class GameTests {
         ThenTheGameCollectionShouldContainURLSimulationAVAILABLE()
     }
 
-    @Test
-    fun `given a view model with live data is populated with games then the results should return the title, url, genre and availability`() = runTest {
-        GivenViewModelIsInitializedWithMockData()
-        WhenJSONDataIsReadAndParsed()
-        ThenResultsShouldContainTitleURLGenreAndAvailability()
-    }
-
-    private fun GivenViewModelIsInitializedWithMockData() {
-        val games = ArrayList<Game>()
-        games.add(Game(10036581,
-            "AI: The Somnium Files",
-            "https://store.steampowered.com/app/948740",
-            "AVAILABLE")
-        )
-        games.add(Game(100894211,
-            "Saviors of Sapphire Wings / Stranger of Sword City",
-            "https://store.steampowered.com/app/1363840",
-            "AVAILABLE")
-        )
-
-        coEvery { mockGameService.fetchGames() } returns games
-
-        mvm = MainViewModel()
-        mvm.gameService = mockGameService
-    }
-
-    private fun WhenJSONDataIsReadAndParsed() {
-        mvm.fetchGames()
-    }
-
-    private fun ThenResultsShouldContainTitleURLGenreAndAvailability() {
-        var allGames : List<Game>? = ArrayList<Game>()
-        val latch = CountDownLatch(1)
-        val observer = object : Observer<List<Game>>{
-            override fun onChanged(t: List<Game>?) {
-                allGames = t
-                latch.countDown()
-                mvm.games.removeObserver(this)
-            }
-
-        }
-        mvm.games.observeForever(observer)
-        latch.await(10, TimeUnit.SECONDS)
-        assertNotNull(allGames)
-        assertTrue(allGames!!.isNotEmpty())
-        var containsData = false
-        allGames!!.forEach {
-            if((it.gameId.equals(10036581)
-                && (it.title.equals("AI: The Somnium Files")))
-                && (it.steamUrl.equals("https://store.steampowered.com/app/948740"))
-                        && (it.status.equals("AVAILABLE")))
-                containsData = true
-        }
-        assertTrue(containsData)
-    }
-
-
     private fun GivenGameServiceIsInitialized() {
         gameService = GameService()
     }
