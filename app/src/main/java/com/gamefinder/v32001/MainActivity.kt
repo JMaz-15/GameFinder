@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
@@ -18,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import com.gamefinder.dto.Game
 import com.gamefinder.dto.GameInfo
@@ -52,7 +51,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     @Composable
     fun TextFieldWithDropdownUsage(dataIn: List<Game>, label: String = "") {
 
@@ -68,7 +66,7 @@ class MainActivity : ComponentActivity() {
             dropDownExpanded.value = true
             textFieldValue.value = value
             dropDownOptions.value = dataIn.filter {
-                it.toString().startsWith(value.text) && it.toString() != value.text
+                it.toString().startsWith(value.text, true) && it.toString() != value.text
             }.take(3)
         }
 
@@ -132,12 +130,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
         @Composable
         fun FindGame(name: String, games: List<Game> = ArrayList<Game>()) {
             var gameTitle by remember { mutableStateOf("") }
             val context = LocalContext.current
-            Column {
+            Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(30.dp)) {
                 TextFieldWithDropdownUsage(dataIn = games, stringResource(R.string.game_Title))
                 Button(
                     onClick = {
