@@ -39,12 +39,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            setContentView(R.layout.main_activity)
             viewModel.fetchGames()
             val games by viewModel.games.observeAsState(initial = emptyList())
             val gameList by viewModel.localGame.observeAsState(initial = emptyList())
 
-            
             GameFinderTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -58,7 +59,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+
     @Composable
+    //Create drop down menu to display games added to list
     fun gameDropDown(localGames: List<GameInfo>){
         var gameText by remember {mutableStateOf("")}
         var expanded by remember { mutableStateOf(false)}
@@ -77,6 +82,7 @@ class MainActivity : ComponentActivity() {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ){
+                //
                 Text(text = "My Games: " + "\r\n" + gameText, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
                 Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
                 DropdownMenu(expanded = expanded, onDismissRequest = {expanded = false}){
@@ -98,6 +104,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
+    //Drop down search bar auto fills with games after two letters typed
     fun TextFieldWithDropdownUsage(dataIn: List<Game>, label: String = "") {
 
         val dropDownOptions = remember { mutableStateOf(listOf<Game>()) }
@@ -125,6 +132,7 @@ class MainActivity : ComponentActivity() {
             dropDownExpanded = dropDownExpanded.value,
             list = dropDownOptions.value,
             label = label
+
         )
     }
 
@@ -177,13 +185,14 @@ class MainActivity : ComponentActivity() {
             }
         }
         @Composable
+        //On Search button click the game data is pulled from firebase
         fun FindGame(name: String, games: List<Game> = ArrayList<Game>(), game: List<GameInfo> = ArrayList<GameInfo>()) {
             var gameTitle by remember { mutableStateOf("") }
 
 
             val context = LocalContext.current
             Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(30.dp)) {
-                TextFieldWithDropdownUsage(dataIn = games, stringResource(R.string.game_Title))
+                TextFieldWithDropdownUsage(dataIn = games, stringResource(R.string.game_Title ))
                 Button(
                     onClick = {
                        var gameInfo = GameInfo().apply {
@@ -202,7 +211,7 @@ class MainActivity : ComponentActivity() {
                             } ?: ""
                         }
 
-                        println(gameInfo.gameId.toString()+"")
+                        //Toast message displays all data for game on search button click
 
                         for (i in 0..2) {
 
@@ -218,6 +227,7 @@ class MainActivity : ComponentActivity() {
                         }
                         Toast.makeText(context, "$gameTitle", Toast.LENGTH_LONG).show()
                     }) { Text(text = "Search") }
+                //On save button click the game data is pulled again and saved to view
                 Button(
                     onClick = {
                         var gameInfo = GameInfo().apply {
