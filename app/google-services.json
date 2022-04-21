@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "567720294514",
-    "project_id": "game-finder-ef1e1",
-    "storage_bucket": "game-finder-ef1e1.appspot.com"
+    "project_number": "142456873670",
+    "project_id": "game-finder-20b5f",
+    "storage_bucket": "game-finder-20b5f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:567720294514:android:ed92205e937e4c4d9faaeb",
+        "mobilesdk_app_id": "1:142456873670:android:571238b263b4aee2b1edc7",
         "android_client_info": {
           "package_name": "com.gamefinder.v32001"
         }
       },
       "oauth_client": [
         {
-          "client_id": "567720294514-fhc9h0khpj5gmq594hm6hop46nl07e7p.apps.googleusercontent.com",
+          "client_id": "142456873670-0j91lvnmpoui3qf34gbocr33tflp5kqf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDGCLBJC-F2kPP2NTooVmTbJY2yhSKb08U"
+          "current_key": "AIzaSyAV5LBChvAXcQEc87IkLS8qR5-6N4g8qRs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "567720294514-fhc9h0khpj5gmq594hm6hop46nl07e7p.apps.googleusercontent.com",
+              "client_id": "142456873670-0j91lvnmpoui3qf34gbocr33tflp5kqf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
