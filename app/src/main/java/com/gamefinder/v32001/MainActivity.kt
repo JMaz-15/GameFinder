@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 Modifier
                     .padding(20.dp)
                     .clickable {
-                        expanded != expanded
+                        expanded = !expanded
                     }
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.Center,
@@ -76,13 +76,13 @@ class MainActivity : ComponentActivity() {
                 Text(text = gameText, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
                 Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
                 DropdownMenu(expanded = expanded, onDismissRequest = {expanded = false}){
-                localGames.forEach { game ->
-                    DropdownMenuItem(onClick = {
+                localGames.forEach {
+                        game -> DropdownMenuItem(onClick = {
                         expanded = false
-                        gameText = game.toString()
+                        gameText = ("Title: " + game.title + "\r\n" + "URL: " +  game.steamUrl + "\r\n" + "Status: " +  game.status)
                         selectedGameTitle = game
                     }) {
-                        Text(text = game.toString())
+                        Text(text = game.title)
                     }
 
                 }

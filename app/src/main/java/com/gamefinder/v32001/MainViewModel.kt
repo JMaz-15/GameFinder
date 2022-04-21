@@ -23,6 +23,7 @@ class MainViewModel (var gameService: IGameService = GameService()) : ViewModel(
     init{
         firestore = FirebaseFirestore.getInstance()
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+        listenToGames()
     }
 
     private fun listenToGames(){
