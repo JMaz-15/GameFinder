@@ -55,16 +55,24 @@ class MainViewModel (var gameService: IGameService = GameService()) : ViewModel(
     }
 
     fun save(gameInfo: GameInfo) {
-       val document = firestore.collection("Games").document()
-        gameInfo.documentId = document.id
-        val handle = document.set(gameInfo)
-        handle.addOnSuccessListener {
-            Log.d("Firebase", "Document Saved")
+        if(gameInfo.gameId == 0) return
+        else {
+            val document = firestore.collection("Games").document()
+            gameInfo.documentId = document.id
+            val handle = document.set(gameInfo)
+            handle.addOnSuccessListener {
+                Log.d("Firebase", "Document Saved")
+            }
+            handle.addOnFailureListener {
+                Log.d("Firebase", "Document Save Failed $it")
+            }
         }
-        handle.addOnFailureListener{
-            Log.d("Firebase", "Document Save Failed $it")
-        }
-
     }
-
+    fun delete(documentId: String){
+        if(documentId == "") return
+        else {
+            val document = firestore.collection("Games").document(documentId)
+            document.delete()
+        }
+    }
 }
