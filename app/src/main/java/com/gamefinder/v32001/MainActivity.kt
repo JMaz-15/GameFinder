@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 Modifier
                     .padding(20.dp)
                     .clickable {
-                        expanded != expanded
+                        expanded = !expanded
                     }
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.Center,
