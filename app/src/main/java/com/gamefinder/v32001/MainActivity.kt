@@ -62,6 +62,10 @@ class MainActivity : ComponentActivity() {
     fun gameDropDown(localGames: List<GameInfo>){
         var gameText by remember {mutableStateOf("")}
         var expanded by remember { mutableStateOf(false)}
+        var GameId by remember { mutableStateOf("") }
+        Button(onClick = { viewModel.delete(GameId) }) {
+            Text(text = "Delete")
+        }
         Box(Modifier.fillMaxWidth()){
             Row(
                 Modifier
@@ -73,14 +77,16 @@ class MainActivity : ComponentActivity() {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Text(text = gameText, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
+                Text(text = "My Games: " + "\r\n" + gameText, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
                 Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
                 DropdownMenu(expanded = expanded, onDismissRequest = {expanded = false}){
                 localGames.forEach {
                         game -> DropdownMenuItem(onClick = {
                         expanded = false
                         gameText = ("Title: " + game.title + "\r\n" + "URL: " +  game.steamUrl + "\r\n" + "Status: " +  game.status)
+                        GameId = game.documentId
                         selectedGameTitle = game
+
                     }) {
                         Text(text = game.title)
                     }
