@@ -106,7 +106,7 @@ class MainActivity : ComponentActivity() {
             dropDownExpanded.value = true
             textFieldValue.value = value
             dropDownOptions.value = dataIn.filter {
-                it.toString().startsWith(value.text) && it.toString() != value.text
+                it.toString().startsWith(value.text, true) && it.toString() != value.text
             }.take(3)
         }
 
@@ -170,12 +170,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
         @Composable
         fun FindGame(name: String, games: List<Game> = ArrayList<Game>(), game: List<GameInfo> = ArrayList<GameInfo>()) {
             var gameTitle by remember { mutableStateOf("") }
             val context = LocalContext.current
-            Column {
+            Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(30.dp)) {
                 TextFieldWithDropdownUsage(dataIn = games, stringResource(R.string.game_Title))
                 Button(
                     onClick = {
