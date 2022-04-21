@@ -16,12 +16,34 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 class MainViewModel (var gameService: IGameService = GameService()) : ViewModel() {
 
     var games : MutableLiveData<List<Game>> = MutableLiveData<List<Game>>()
+    var localGame : MutableLiveData<List<GameInfo>> = MutableLiveData<List<GameInfo>>()
 
     private lateinit var firestore : FirebaseFirestore
 
     init{
         firestore = FirebaseFirestore.getInstance()
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+    }
+
+    private fun listenToGames(){
+        firestore.collection("Games").addSnapshotListener{
+            snapshot, e ->
+            if (e != null){
+                Log.w("Listen Failed", e)
+                return@addSnapshotListener
+            }
+            snapshot?.let{
+                val allGames = ArrayList<GameInfo>()
+                val documents = snapshot.documents
+                documents.forEach{
+                    val localGame = it.toObject(GameInfo::class.java)
+                    localGame?.let{
+                    allGames.add(it)
+                }
+                }
+                localGame.value = allGames
+            }
+        }
     }
     fun fetchGames() {
         viewModelScope.launch {

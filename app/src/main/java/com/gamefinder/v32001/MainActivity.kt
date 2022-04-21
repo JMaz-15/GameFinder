@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -17,6 +21,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import com.gamefinder.dto.Game
 import com.gamefinder.dto.GameInfo
@@ -28,6 +33,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
+    private var selectedGameTitle: GameInfo? = null
     private var selectedGame: Game? = null
     private val viewModel: MainViewModel by viewModel<MainViewModel>()
     private var strSelectedData: String = ""
@@ -37,16 +43,50 @@ class MainActivity : ComponentActivity() {
         setContent {
             viewModel.fetchGames()
             val games by viewModel.games.observeAsState(initial = emptyList())
+            val gameList by viewModel.localGame.observeAsState(initial = emptyList())
+
             GameFinderTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    FindGame("Android", games)
+                    FindGame("Android", games, gameList)
                 }
                 var foo = games
                 val i = 1+1
+            }
+        }
+    }
+    @Composable
+    fun gameDropDown(localGames: List<GameInfo>){
+        var gameText by remember {mutableStateOf("")}
+        var expanded by remember { mutableStateOf(false)}
+        Box(Modifier.fillMaxWidth()){
+            Row(
+                Modifier
+                    .padding(20.dp)
+                    .clickable {
+                        expanded = !expanded
+                    }
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = gameText, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
+                Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
+                DropdownMenu(expanded = expanded, onDismissRequest = {expanded = false}){
+                localGames.forEach { game ->
+                    DropdownMenuItem(onClick = {
+                        expanded = false
+                        gameText = game.toString()
+                        selectedGameTitle = game
+                    }) {
+                        Text(text = game.toString())
+                    }
+
+                }
+                }
             }
         }
     }
@@ -131,7 +171,7 @@ class MainActivity : ComponentActivity() {
             }
         }
         @Composable
-        fun FindGame(name: String, games: List<Game> = ArrayList<Game>()) {
+        fun FindGame(name: String, games: List<Game> = ArrayList<Game>(), game: List<GameInfo> = ArrayList<GameInfo>()) {
             var gameTitle by remember { mutableStateOf("") }
             val context = LocalContext.current
             Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(30.dp)) {
@@ -152,7 +192,7 @@ class MainActivity : ComponentActivity() {
                                 it.status
                             } ?: ""
                         }
-
+                            DisplayGameInfo()
                         Toast.makeText(context, "$gameTitle", Toast.LENGTH_LONG).show()
                     }) { Text(text = "Search") }
                 Button(
@@ -173,9 +213,27 @@ class MainActivity : ComponentActivity() {
                         }
                         viewModel.save(gameInfo)
                     }) { Text(text = "Save Game")}
+                gameDropDown(localGames = game)
             }
         }
 
+    fun DisplayGameInfo(){
+        var gameInfo = GameInfo().apply {
+            gameId = selectedGame?.let {
+                it.gameId
+            } ?: 0
+            title = selectedGame?.let {
+                it.title
+            } ?: ""
+            steamUrl = selectedGame?.let {
+                it.steamUrl
+            } ?: ""
+            status = selectedGame?.let {
+                it.status
+            } ?: ""
+        }
+
+    }
         @Preview(showBackground = true)
         @Composable
         fun DefaultPreview() {
