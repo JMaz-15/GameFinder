@@ -1,6 +1,7 @@
 package com.gamefinder.v32001
 
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,14 +30,13 @@ import com.gamefinder.v32001.ui.theme.GameFinderTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-
-
 class MainActivity : ComponentActivity() {
 
     private var selectedGameTitle: GameInfo? = null
     private var selectedGame: Game? = null
     private val viewModel: MainViewModel by viewModel<MainViewModel>()
     private var strSelectedData: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +45,7 @@ class MainActivity : ComponentActivity() {
             val games by viewModel.games.observeAsState(initial = emptyList())
             val gameList by viewModel.localGame.observeAsState(initial = emptyList())
 
+            
             GameFinderTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -173,6 +174,8 @@ class MainActivity : ComponentActivity() {
         @Composable
         fun FindGame(name: String, games: List<Game> = ArrayList<Game>(), game: List<GameInfo> = ArrayList<GameInfo>()) {
             var gameTitle by remember { mutableStateOf("") }
+
+
             val context = LocalContext.current
             Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(30.dp)) {
                 TextFieldWithDropdownUsage(dataIn = games, stringResource(R.string.game_Title))
@@ -181,6 +184,7 @@ class MainActivity : ComponentActivity() {
                        var gameInfo = GameInfo().apply {
                             gameId = selectedGame?.let {
                                 it.gameId
+
                             } ?: 0
                             title = selectedGame?.let {
                                 it.title
@@ -192,6 +196,22 @@ class MainActivity : ComponentActivity() {
                                 it.status
                             } ?: ""
                         }
+
+                        println(gameInfo.gameId.toString()+"")
+
+                        for (i in 0..2) {
+
+                            val toast = Toast.makeText(
+                                context,
+                                "ID:    " + gameInfo.gameId.toString() + "\r\n\r\nTitle:    " +
+                                        gameInfo.title + "\r\n\r\nURL:    " + gameInfo.steamUrl +
+                                        "\r\n\r\nStatus:    " + gameInfo.status, Toast.LENGTH_LONG
+                            )
+                            toast.setGravity(Gravity.TOP, 0, 1000)
+
+                            toast.show()
+                        }          
+
                             DisplayGameInfo()
                         Toast.makeText(context, "$gameTitle", Toast.LENGTH_LONG).show()
                     }) { Text(text = "Search") }
@@ -216,6 +236,7 @@ class MainActivity : ComponentActivity() {
                 gameDropDown(localGames = game)
             }
         }
+
 
     fun DisplayGameInfo(){
         var gameInfo = GameInfo().apply {
