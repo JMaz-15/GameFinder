@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -210,9 +209,7 @@ class MainActivity : ComponentActivity() {
                             toast.setGravity(Gravity.TOP, 0, 1000)
 
                             toast.show()
-                        }          
-
-                            DisplayGameInfo()
+                        }
                         Toast.makeText(context, "$gameTitle", Toast.LENGTH_LONG).show()
                     }) { Text(text = "Search") }
                 Button(
@@ -232,29 +229,12 @@ class MainActivity : ComponentActivity() {
                             } ?: ""
                         }
                         viewModel.save(gameInfo)
-                    }) { Text(text = "Save Game")}
+                    })
+                { Text(text = "Save Game")}
                 gameDropDown(localGames = game)
             }
         }
 
-
-    fun DisplayGameInfo(){
-        var gameInfo = GameInfo().apply {
-            gameId = selectedGame?.let {
-                it.gameId
-            } ?: 0
-            title = selectedGame?.let {
-                it.title
-            } ?: ""
-            steamUrl = selectedGame?.let {
-                it.steamUrl
-            } ?: ""
-            status = selectedGame?.let {
-                it.status
-            } ?: ""
-        }
-
-    }
         @Preview(showBackground = true)
         @Composable
         fun DefaultPreview() {
