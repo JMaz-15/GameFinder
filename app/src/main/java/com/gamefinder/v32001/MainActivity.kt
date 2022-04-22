@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            setContentView(R.layout.main_activity)
             viewModel.fetchGames()
             val games by viewModel.games.observeAsState(initial = emptyList())
             val gameList by viewModel.localGame.observeAsState(initial = emptyList())
